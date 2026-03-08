@@ -7,7 +7,7 @@ resource "proxmox_vm_qemu" "kmaster" {
 
   agent    = 1
   clone    = "ubuntu-cloud-template"
-  memory   = 2048
+  memory   = 4096
 
   cpu {
     cores   = 2
