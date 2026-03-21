@@ -1,6 +1,22 @@
 resource "proxmox_lxc" "gitea" {
   target_node  = "pve"
   hostname     = "gitea"
+  description = <<-EOT
+  Gitea LXC (managed by Terraform)
+
+  Update Gitea:
+  1. systemctl stop gitea
+  2. wget neue Binary nach /tmp
+  3. optional: gpg --verify
+  4. mv Binary nach /usr/local/bin/gitea
+  5. systemctl start gitea
+  6. gitea --version prüfen
+
+  Daten:
+  - Config: /etc/gitea/app.ini
+  - Data:   /var/lib/gitea
+  - Binary: /usr/local/bin/gitea
+  EOT
   vmid = 210
   ostemplate   = "local:vztmpl/debian-13-standard_13.1-2_amd64.tar.zst"
   unprivileged = true
