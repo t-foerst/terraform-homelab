@@ -1,7 +1,7 @@
-resource "proxmox_vm_qemu" "kworker1" {
-  name        = "kworker1"
-  description = "Kubernetes worker node"
-  vmid        = 205
+resource "proxmox_vm_qemu" "kmaster2" {
+  name        = "kmaster2"
+  description = "Kubernetes master node"
+  vmid        = 201
   target_node = "pve"
   onboot      = true
   scsihw   = "virtio-scsi-pci"
@@ -54,7 +54,7 @@ resource "proxmox_vm_qemu" "kworker1" {
   }
 
 
-  ipconfig0   = "ip=10.10.20.205/24,gw=10.10.20.1"
+  ipconfig0   = "ip=10.10.20.201/24,gw=10.10.20.1"
   nameserver  = "10.10.20.1"
   ciuser     = "ubuntu"
   sshkeys = <<-EOT

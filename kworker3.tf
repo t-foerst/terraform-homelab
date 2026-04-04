@@ -1,7 +1,7 @@
-resource "proxmox_vm_qemu" "kworker1" {
-  name        = "kworker1"
+resource "proxmox_vm_qemu" "kworker3" {
+  name        = "kworker3"
   description = "Kubernetes worker node"
-  vmid        = 205
+  vmid        = 207
   target_node = "pve"
   onboot      = true
   scsihw   = "virtio-scsi-pci"
@@ -48,13 +48,12 @@ resource "proxmox_vm_qemu" "kworker1" {
 
   lifecycle {
     ignore_changes = [
-      disk,
-      tags,
+        disk,
+        tags,
     ]
-  }
+    }
 
-
-  ipconfig0   = "ip=10.10.20.205/24,gw=10.10.20.1"
+  ipconfig0   = "ip=10.10.20.207/24,gw=10.10.20.1"
   nameserver  = "10.10.20.1"
   ciuser     = "ubuntu"
   sshkeys = <<-EOT

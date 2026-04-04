@@ -1,8 +1,9 @@
 resource "proxmox_vm_qemu" "kworker2" {
   name        = "kworker2"
   description = "Kubernetes worker node"
-  vmid        = 202
+  vmid        = 206
   target_node = "pve"
+  onboot      = true
   scsihw   = "virtio-scsi-pci"
 
   agent    = 1
@@ -27,6 +28,7 @@ resource "proxmox_vm_qemu" "kworker2" {
     type    = "disk"
     storage = "local-lvm"
     size    = "32G"
+    backup  = true
   }
 
   disk {
@@ -44,8 +46,17 @@ resource "proxmox_vm_qemu" "kworker2" {
     type = "serial0"
   }
 
-  ipconfig0   = "ip=10.10.20.202/24,gw=10.10.20.1"
+  lifecycle {
+    ignore_changes = [
+      disk,
+      tags,
+    ]
+  }
+
+  ipconfig0   = "ip=10.10.20.206/24,gw=10.10.20.1"
   nameserver  = "10.10.20.1"
   ciuser     = "ubuntu"
-  sshkeys = file(pathexpand("~/.ssh/id_ed25519.pub"))
+  sshkeys = <<-EOT
+    ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOJgLejiCJaHRWm1ypL3dovLaCTgQUXT2parYFtf8nY0 thorben@fedoraPC
+  EOT
 }

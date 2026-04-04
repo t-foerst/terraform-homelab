@@ -21,6 +21,7 @@ resource "proxmox_lxc" "gitea" {
   ostemplate   = "local:vztmpl/debian-13-standard_13.1-2_amd64.tar.zst"
   unprivileged = true
   start        = true
+  onboot       = true
 
   cores  = 2
   memory = 2048
@@ -36,6 +37,7 @@ resource "proxmox_lxc" "gitea" {
     storage = "zfsStorage"
     mp      = "/var/lib/gitea"
     size    = "500G"
+    backup  = true
   }
 
   network {
@@ -45,5 +47,18 @@ resource "proxmox_lxc" "gitea" {
     gw = "10.10.20.1"
     tag   = 20
   }
-  ssh_public_keys = file(pathexpand("~/.ssh/id_ed25519.pub"))
+
+  lifecycle {
+    ignore_changes = [
+      ostemplate,
+      rootfs,
+      mountpoint,
+      network,
+      ssh_public_keys,
+    ]
+  }
+
+  ssh_public_keys = <<-EOT
+    ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOJgLejiCJaHRWm1ypL3dovLaCTgQUXT2parYFtf8nY0 thorben@fedoraPC
+  EOT
 }
