@@ -48,10 +48,10 @@ resource "proxmox_vm_qemu" "kworker3" {
 
   lifecycle {
     ignore_changes = [
-        disk,
-        tags,
+      disk,
+      tags,
     ]
-    }
+  }
 
   ipconfig0   = "ip=10.10.20.207/24,gw=10.10.20.1"
   nameserver  = "10.10.20.1"
