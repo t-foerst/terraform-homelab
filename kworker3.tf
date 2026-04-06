@@ -36,6 +36,14 @@ resource "proxmox_vm_qemu" "kworker3" {
     type    = "cloudinit"
     storage = "local-lvm"
   }
+
+  disk {
+    slot    = "scsi1"
+    type    = "disk"
+    storage = "zfsStorage"
+    size    = "4T"
+    backup  = true
+  }
   
   serial {
     id   = 0
