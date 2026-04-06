@@ -2,7 +2,7 @@ resource "proxmox_lxc" "haproxyexternal" {
   target_node  = "pve"
   hostname     = "haproxyexternal"
   description  = <<-EOT
-  HAProxy LXC for k3s external Ingress load balancing (managed by Terraform)
+  HAProxy LXC for k3s external Ingress load balancing (managed by Terraform) + Öffentlicher IP updater mir Dnsexit (meinvpn.work.gd)
 
   Frontend:
   - 10.10.40.214:80 -> k3s server nodes
