@@ -1,6 +1,6 @@
 resource "proxmox_vm_qemu" "kworker3" {
   name        = "kworker3"
-  description = "Kubernetes worker node"
+  description = "Kubernetes worker and storage node"
   vmid        = 207
   target_node = "pve"
   onboot      = true
