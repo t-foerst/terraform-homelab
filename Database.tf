@@ -27,7 +27,7 @@ resource "proxmox_lxc" "postgres" {
   mountpoint {
     key     = "0"
     slot    = 0
-    storage = "zfsStorage"
+    storage = "local-lvm"
     mp      = "/var/lib/postgresql"
     size    = "50G"
     backup  = true
