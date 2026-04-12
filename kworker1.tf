@@ -8,7 +8,9 @@ resource "proxmox_vm_qemu" "kworker1" {
 
   agent    = 1
   clone    = "ubuntu-cloud-template"
-  memory   = 4096
+  memory   = 2048
+  tags     = "k8s-worker"
+
 
   cpu {
     cores   = 2
@@ -49,7 +51,6 @@ resource "proxmox_vm_qemu" "kworker1" {
   lifecycle {
     ignore_changes = [
       disk,
-      tags,
     ]
   }
 

@@ -8,7 +8,8 @@ resource "proxmox_vm_qemu" "kmaster2" {
 
   agent    = 1
   clone    = "ubuntu-cloud-template"
-  memory   = 4096
+  memory   = 2048
+  tags     = "k8s-master"
 
   cpu {
     cores   = 2
@@ -49,7 +50,6 @@ resource "proxmox_vm_qemu" "kmaster2" {
   lifecycle {
     ignore_changes = [
       disk,
-      tags,
     ]
   }
 
