@@ -5,14 +5,14 @@ resource "proxmox_lxc" "haproxyexternal" {
   HAProxy LXC for k3s external Ingress load balancing (managed by Terraform) + Öffentlicher IP updater mir Dnsexit (meinvpn.work.gd)
 
   Frontend:
-  - 10.10.40.214:80 -> k3s server nodes
+  - 10.10.20.214:80 -> k3s server nodes
 
   Backends:
   - 10.10.20.200:32080 (kmaster)
   - 10.10.20.201:32080 (kmaster2)
 
     Frontend:
-  - 10.10.40.214:443 -> k3s server nodes
+  - 10.10.20.214:443 -> k3s server nodes
 
   Backends:
   - 10.10.20.200:32443 (kmaster)
@@ -41,9 +41,9 @@ resource "proxmox_lxc" "haproxyexternal" {
   network {
     name   = "eth0"
     bridge = "vmbr0"
-    ip     = "10.10.40.214/24"
-    gw     = "10.10.40.1"
-    tag    = 40
+    ip     = "10.10.20.214/24"
+    gw     = "10.10.20.1"
+    tag    = 20
   }
 
   ssh_public_keys = <<-EOT
