@@ -1,7 +1,7 @@
 resource "proxmox_lxc" "haproxy" {
-  target_node  = "pve"
-  hostname     = "haproxy"
-  description  = <<-EOT
+  target_node = "pve2"
+  hostname    = "haproxy"
+  description = <<-EOT
   HAProxy LXC for k3s API load balancing (managed by Terraform)
 
   Frontend:

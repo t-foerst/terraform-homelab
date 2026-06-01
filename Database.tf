@@ -1,5 +1,5 @@
 resource "proxmox_lxc" "postgres" {
-  target_node  = "pve"
+  target_node  = "pve2"
   hostname     = "postgres"
   description  = <<-EOT
   PostgreSQL LXC (managed by Terraform)

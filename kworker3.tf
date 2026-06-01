@@ -4,12 +4,12 @@ resource "proxmox_vm_qemu" "kworker3" {
   vmid        = 207
   target_node = "pve"
   onboot      = true
-  scsihw   = "virtio-scsi-pci"
+  scsihw      = "virtio-scsi-pci"
 
-  agent    = 1
-  clone    = "ubuntu-cloud-template"
-  memory   = 4096
-  tags     = "k8s-worker;hdd-node"
+  agent  = 1
+  clone  = "ubuntu-cloud-template"
+  memory = 4096
+  tags   = "k8s-worker;hdd-node"
 
   cpu {
     cores   = 2
@@ -21,7 +21,7 @@ resource "proxmox_vm_qemu" "kworker3" {
     id     = 0
     model  = "virtio"
     bridge = "vmbr0"
-    tag   = 20
+    tag    = 20
   }
 
   disk {
@@ -45,7 +45,7 @@ resource "proxmox_vm_qemu" "kworker3" {
     size    = "4T"
     backup  = true
   }
-  
+
   serial {
     id   = 0
     type = "socket"
@@ -61,10 +61,10 @@ resource "proxmox_vm_qemu" "kworker3" {
     ]
   }
 
-  ipconfig0   = "ip=10.10.20.207/24,gw=10.10.20.1"
-  nameserver  = "10.10.20.1"
+  ipconfig0  = "ip=10.10.20.207/24,gw=10.10.20.1"
+  nameserver = "10.10.20.1"
   ciuser     = "ubuntu"
-  sshkeys = <<-EOT
+  sshkeys    = <<-EOT
     ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOJgLejiCJaHRWm1ypL3dovLaCTgQUXT2parYFtf8nY0 thorben@fedoraPC
   EOT
 }

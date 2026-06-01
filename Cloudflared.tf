@@ -1,7 +1,7 @@
 resource "proxmox_lxc" "cloudflared" {
-  target_node  = "pve"
-  hostname     = "cloudflared"
-  description  = <<-EOT
+  target_node = "pve2"
+  hostname    = "cloudflared"
+  description = <<-EOT
   Cloudflare Tunnel (cloudflared) LXC (managed by Terraform)
 
   Baut einen ausgehenden Tunnel zu Cloudflare auf.
