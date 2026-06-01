@@ -6,11 +6,12 @@ resource "proxmox_vm_qemu" "truenas" {
   onboot      = true
 
   # Kein clone — Boot von ISO
-  boot   = "order=ide0;scsi0"
+  boot   = "order=scsi0"
   scsihw = "virtio-scsi-pci"
   agent  = 0
 
   memory = 8192
+  tags   = "storage"
 
   cpu {
     cores   = 2
@@ -48,7 +49,6 @@ resource "proxmox_vm_qemu" "truenas" {
   lifecycle {
     ignore_changes = [
       disk,
-      boot,
     ]
   }
 }
