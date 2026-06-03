@@ -1,6 +1,6 @@
 resource "proxmox_vm_qemu" "kworker3" {
   name        = "kworker3"
-  description = "Kubernetes worker and storage node"
+  description = "Kubernetes worker"
   vmid        = 207
   target_node = "pve"
   onboot      = true
@@ -9,7 +9,7 @@ resource "proxmox_vm_qemu" "kworker3" {
   agent  = 1
   clone  = "ubuntu-cloud-template"
   memory = 4096
-  tags   = "k8s-worker;hdd-node"
+  tags   = "k8s-worker"
 
   cpu {
     cores   = 2
@@ -36,14 +36,6 @@ resource "proxmox_vm_qemu" "kworker3" {
     slot    = "ide2"
     type    = "cloudinit"
     storage = "local-lvm"
-  }
-
-  disk {
-    slot    = "scsi1"
-    type    = "disk"
-    storage = "zfsStorage"
-    size    = "4T"
-    backup  = true
   }
 
   serial {
