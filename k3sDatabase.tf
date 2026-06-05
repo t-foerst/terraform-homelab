@@ -9,7 +9,7 @@ resource "proxmox_lxc" "postgres" {
   - Data:   /var/lib/postgresql
   - Logs:   /var/log/postgresql
   EOT
-  tags         = "Database"
+  tags         = "database"
   vmid         = 211
   ostemplate   = "local:vztmpl/debian-13-standard_13.1-2_amd64.tar.zst"
   unprivileged = true
