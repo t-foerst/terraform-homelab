@@ -2,13 +2,14 @@ resource "proxmox_lxc" "postgres" {
   target_node  = "pve2"
   hostname     = "postgres"
   description  = <<-EOT
-  PostgreSQL LXC (managed by Terraform)
+  PostgreSQL LXC for k3s (managed by Terraform)
 
   Wichtige Pfade:
   - Config: /etc/postgresql/*/main/postgresql.conf
   - Data:   /var/lib/postgresql
   - Logs:   /var/log/postgresql
   EOT
+  tags         = "Database"
   vmid         = 211
   ostemplate   = "local:vztmpl/debian-13-standard_13.1-2_amd64.tar.zst"
   unprivileged = true

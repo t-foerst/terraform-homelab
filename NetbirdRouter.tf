@@ -1,30 +1,30 @@
-resource "proxmox_lxc" "haproxy" {
+resource "proxmox_lxc" "netbird_router" {
   target_node = "pve2"
-  hostname    = "haproxy"
+  hostname    = "netbird-router"
   description = <<-EOT
-  HAProxy LXC for k3s API load balancing (managed by Terraform)
+  NetBird Subnet Router LXC (managed by Terraform)
 
-  Frontend:
-  - 10.10.20.212:6443 -> k3s server nodes
-
-  Backends:
-  - 10.10.20.200:6443 (kmaster)
-  - 10.10.20.201:6443 (kmaster2)
+  Routet Traffic aus dem NetBird-Netz in die internen Subnetze.
+  Benötigt privilegierten Modus für WireGuard-Kernelzugriff.
 
   Wichtige Pfade:
-  - Config: /etc/haproxy/haproxy.cfg
-  - Logs:   journalctl -u haproxy
+  - Config:  /etc/netbird/config.json
+  - Logs:    journalctl -u netbird
   EOT
 
-  vmid         = 212
+  vmid         = 217
   ostemplate   = "local:vztmpl/debian-13-standard_13.1-2_amd64.tar.zst"
   unprivileged = true
   start        = true
   onboot       = true
 
   cores  = 1
-  memory = 512
-  swap   = 256
+  memory = 256
+  swap   = 128
+
+  features {
+    nesting = true
+  }
 
   rootfs {
     storage = "local-lvm"
@@ -34,9 +34,9 @@ resource "proxmox_lxc" "haproxy" {
   network {
     name   = "eth0"
     bridge = "vmbr0"
-    ip     = "10.10.20.212/24"
-    gw     = "10.10.20.1"
-    tag    = 20
+    ip     = "10.10.40.217/24"
+    gw     = "10.10.40.1"
+    tag    = 40
   }
 
   ssh_public_keys = <<-EOT

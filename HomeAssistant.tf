@@ -2,7 +2,7 @@ resource "proxmox_vm_qemu" "home-assistant" {
   name                   = "home-assistant"
   description            = "Home Assistant OS VM"
   vmid                   = 180
-  target_node            = "pve"
+  target_node            = "pve2"
   onboot                 = true
   full_clone             = false
   bios                   = "ovmf"
