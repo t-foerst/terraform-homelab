@@ -29,7 +29,7 @@ resource "proxmox_vm_qemu" "kworker1" {
     slot    = "scsi0"
     type    = "disk"
     storage = "local-lvm"
-    size    = "32G"
+    size    = "64G"
     backup  = true
   }
 
