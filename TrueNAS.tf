@@ -10,7 +10,7 @@ resource "proxmox_vm_qemu" "truenas" {
   scsihw = "virtio-scsi-pci"
   agent  = 0
 
-  memory = 8192
+  memory = 16384
   tags   = "storage"
 
   cpu {
