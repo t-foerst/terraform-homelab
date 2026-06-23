@@ -8,7 +8,7 @@ resource "proxmox_vm_qemu" "kworker1" {
 
   agent  = 1
   clone  = "ubuntu-cloud-template"
-  memory = 8192
+  memory = 16384
   tags   = "k8s-worker"
 
 

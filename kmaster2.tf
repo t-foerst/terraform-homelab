@@ -8,7 +8,7 @@ resource "proxmox_vm_qemu" "kmaster2" {
 
   agent  = 1
   clone  = "ubuntu-cloud-template"
-  memory = 2048
+  memory = 4096
   tags   = "k8s-master"
 
   cpu {
