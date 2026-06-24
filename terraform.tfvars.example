@@ -1,0 +1,5 @@
+proxmox_api_url          = "https://<proxmox-host>:8006/api2/json"
+proxmox_api_token_id     = "<user>@pam!<token-name>"
+proxmox_api_token_secret = "<token-secret>"
+
+hcloud_token             = "<hetzner-cloud-api-token>"

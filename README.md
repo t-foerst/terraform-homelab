@@ -1,50 +1,57 @@
 # terraform-homelab
 
-Terraform configuration for a production-like homelab Kubernetes cluster running on Proxmox VE. Provisions a full HA k8s cluster with supporting infrastructure including load balancers, object storage, and a relational database — all as code.
+Infrastructure-as-Code for my homelab: a self-hosted Kubernetes (k3s) cluster on Proxmox VE, plus supporting services for storage, smart home, and secure remote access — all provisioned and version-controlled with Terraform.
 
-## Resources
+## What's in here
 
-| Resource | Type | VMID | CPU | RAM | Disk |
-|---|---|---|---|---|---|
-| kmaster | VM (Ubuntu Cloud) | 200 | 2 | 2 GB | 32 GB |
-| kmaster2 | VM (Ubuntu Cloud) | 201 | 2 | 2 GB | 32 GB |
-| kworker1 | VM (Ubuntu Cloud) | 205 | 2 | 2 GB | 32 GB |
-| kworker2 | VM (Ubuntu Cloud) | 206 | 2 | 2 GB | 32 GB |
-| kworker3 | VM (Ubuntu Cloud) | 207 | 2 | 4 GB | 32 GB + 4 TB (ZFS) |
-| HAProxy Internal | LXC (Debian 13) | 212 | 1 | 512 MB | 8 GB |
-| HAProxy External | LXC (Debian 13) | 214 | 1 | 512 MB | 8 GB |
-| PostgreSQL | LXC (Debian 13) | 211 | 2 | 2 GB | 8 GB + 50 GB (ZFS) |
-| MinIO | LXC (Debian 13) | 213 | 2 | 2 GB | 5 GB + 4 TB (ZFS) |
+- **Kubernetes cluster** — HA k3s control plane (multiple master nodes) and worker nodes, provisioned as Proxmox VMs from a cloud-init template.
+- **NAS / storage** — [TrueNAS SCALE](https://www.truenas.com/truenas-scale/) VM for bulk storage.
+- **Smart home** — [Home Assistant OS](https://www.home-assistant.io/) VM.
+- **Remote access** — [NetBird](https://netbird.io/) (WireGuard-based mesh VPN) subnet router for secure access into the homelab without exposing services to the internet.
+- **Database** — PostgreSQL LXC container for application data.
+
+Compute lives on Proxmox VE across multiple nodes; one resource ([`netbird-router.tf`](netbird-router.tf)) connects the homelab to a NetBird overlay network rather than exposing ports directly.
+
+## Tech stack
+
+| Layer | Tool |
+|---|---|
+| IaC | Terraform |
+| Hypervisor | Proxmox VE |
+| Container orchestration | k3s (Kubernetes) |
+| Cloud provider (optional) | Hetzner Cloud |
+| Remote access | NetBird (WireGuard) |
+
+## Repository structure
+
+```
+versions.tf              # Terraform + provider version constraints
+providers.tf             # Provider configuration
+variables.tf             # Input variable declarations
+kmaster*.tf, kworker*.tf  # k3s cluster nodes (Proxmox VMs)
+k3s-database.tf           # PostgreSQL LXC for cluster workloads
+truenas.tf                # TrueNAS SCALE NAS VM
+home-assistant.tf         # Home Assistant OS VM
+netbird-router.tf          # NetBird subnet router LXC
+terraform.tfvars.example  # Template for required secrets/credentials
+```
+
+Each resource lives in its own file named after the service it provisions — there's no separate "resources" doc to keep in sync; the `.tf` files themselves are the source of truth.
 
 ## Prerequisites
 
 - Proxmox VE with API token access
-- VM template: `ubuntu-cloud-template` (cloud-init enabled)
-- LXC template: `debian-13-standard_13.1-2_amd64.tar.zst`
-- Storage pools: `local-lvm` (OS disks), `zfsStorage` (large data volumes)
+- VM template with cloud-init enabled (for k3s nodes)
+- LXC template for Debian-based containers
 - Terraform >= 0.13.0
 
 ## Usage
 
 ```bash
-# Initialize providers
+cp terraform.tfvars.example terraform.tfvars   # fill in your credentials
 terraform init
-
-# Preview changes
 terraform plan
-
-# Apply
 terraform apply
 ```
 
-### terraform.tfvars
-
-```hcl
-proxmox_api_url          = "https://<proxmox-host>:8006/api2/json"
-proxmox_api_token_id     = "<user>@pam!<token-name>"
-proxmox_api_token_secret = "<token-secret>"
-```
-
-## Provider
-
-Uses [`telmate/proxmox`](https://registry.terraform.io/providers/Telmate/proxmox/latest) v3.0.2-rc04.
+`terraform.tfvars` holds real credentials and is gitignored — never commit it.

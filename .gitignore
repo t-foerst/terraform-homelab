@@ -1,2 +1,10 @@
 credentials.auto.tfvars
-terraform.*
+terraform.tfvars
+terraform.tfstate
+terraform.tfstate.*
+crash.log
+crash.*.log
+.terraform/
+.terraform.tfstate.lock.info
+
+!terraform.tfvars.example
