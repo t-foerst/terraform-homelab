@@ -1,5 +1,5 @@
 resource "proxmox_lxc" "netbird_router" {
-  target_node = "pve2"
+  target_node = "pve"
   hostname    = "netbird-router"
   description = <<-EOT
   NetBird Subnet Router LXC (managed by Terraform)
