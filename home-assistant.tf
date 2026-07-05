@@ -12,7 +12,7 @@ resource "proxmox_vm_qemu" "home-assistant" {
   scsihw = "virtio-scsi-pci"
   agent  = 0
 
-  memory = 4096
+  memory = 2048
   tags   = "homeassistant"
 
   cpu {

@@ -17,8 +17,8 @@ resource "proxmox_lxc" "postgres" {
   onboot       = true
 
   cores  = 2
-  memory = 2048
-  swap   = 512
+  memory = 256
+  swap   = 128
 
   rootfs {
     storage = "local-lvm"
