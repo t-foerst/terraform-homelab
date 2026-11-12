@@ -1,5 +1,7 @@
 # terraform-homelab
 
+> **Status: archived.** This was my homelab setup from March to September 2026. It worked as intended, but an HA control plane turned out to be overkill for day-to-day use, so I replaced it with a much simpler single-node setup: [k3s-homelab](https://github.com/t-foerst/k3s-homelab). Kept public as a reference.
+
 Infrastructure-as-Code for my homelab: a self-hosted Kubernetes (k3s) cluster on Proxmox VE, plus supporting services for storage, smart home, and secure remote access — all provisioned and version-controlled with Terraform.
 
 ## What's in here
