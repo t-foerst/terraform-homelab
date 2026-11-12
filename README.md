@@ -1,16 +1,16 @@
 # terraform-homelab
 
-> **Status: archived.** This was my homelab setup from March to September 2026. It worked as intended, but an HA control plane turned out to be overkill for day-to-day use, so I replaced it with a much simpler single-node setup: [k3s-homelab](https://github.com/t-foerst/k3s-homelab). Kept public as a reference.
+> **Status: archived.** This was my homelab setup from March to September 2026. It worked as intended, but a multi-master cluster turned out to be overkill for day-to-day use, so I replaced it with a much simpler single-node setup: [k3s-homelab](https://github.com/t-foerst/k3s-homelab). Kept public as a reference.
 
 Infrastructure-as-Code for my homelab: a self-hosted Kubernetes (k3s) cluster on Proxmox VE, plus supporting services for storage, smart home, and secure remote access — all provisioned and version-controlled with Terraform.
 
 ## What's in here
 
-- **Kubernetes cluster** — HA k3s control plane (multiple master nodes) and worker nodes, provisioned as Proxmox VMs from a cloud-init template.
+- **Kubernetes cluster** — k3s with two server (master) and two worker nodes, provisioned as Proxmox VMs from a cloud-init template. Both servers use the external PostgreSQL datastore below instead of embedded etcd. That datastore is a single instance, so the control plane is not truly highly available.
 - **NAS / storage** — [TrueNAS SCALE](https://www.truenas.com/truenas-scale/) VM for bulk storage.
 - **Smart home** — [Home Assistant OS](https://www.home-assistant.io/) VM.
 - **Remote access** — [NetBird](https://netbird.io/) (WireGuard-based mesh VPN) subnet router for secure access into the homelab without exposing services to the internet.
-- **Database** — PostgreSQL LXC container for application data.
+- **k3s datastore** — PostgreSQL LXC container holding the cluster state (external datastore for the k3s servers).
 
 Compute lives on Proxmox VE across multiple nodes; one resource ([`netbird-router.tf`](netbird-router.tf)) connects the homelab to a NetBird overlay network rather than exposing ports directly.
 
@@ -31,7 +31,7 @@ versions.tf              # Terraform + provider version constraints
 providers.tf             # Provider configuration
 variables.tf             # Input variable declarations
 kmaster*.tf, kworker*.tf  # k3s cluster nodes (Proxmox VMs)
-k3s-database.tf           # PostgreSQL LXC for cluster workloads
+k3s-database.tf           # PostgreSQL LXC: external k3s datastore
 truenas.tf                # TrueNAS SCALE NAS VM
 home-assistant.tf         # Home Assistant OS VM
 netbird-router.tf          # NetBird subnet router LXC
